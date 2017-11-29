@@ -7,12 +7,15 @@ describe Facter::Util::Fact do
   describe 'docker' do
     context 'with value' do
       before :each do
-        expect(Facter::Util::Resolution).to receive(:exec).with("docker network ls --format='{{.Name}}'") {
+        expect(Facter.value(:interfaces)).to {
+          'br-19a6ebf6f5a5,br-c5810f1e3113,docker0,eno16780032,lo'
+        }
+        expect(Facter::Util::Resolution).to receive(:exec).with("docker network ls --format='{{.Name}}'") {'
           bridge
           host
           none
           dummyapp_default
-        }
+        '}
         expect(Facter::Util::Resolution).to receive(:exec).with("docker network ls --format='{{.ID}}'") {'
           d9e04c239a53
           ca5f5f36c8d7
